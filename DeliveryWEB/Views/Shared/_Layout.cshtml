@@ -1,0 +1,75 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewData["Title"] - Sistema Delivery</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+
+    <style>
+        body.home-bp{
+            background-image: url('../Images/principal.jpg');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-position: center;
+            color: #fff;
+        }
+
+        body.cliente-bp {
+            background-image: url('../Images/cliente.jpg');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-position: center;
+            color: #fff;
+        }
+
+        body.pedidos-bp {
+            background-image: url('../Images/pedidos.jpg');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-position: center;
+            color: #fff;
+        }
+
+        .container {
+            background-color: rgba(0,0,0,0.5);
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+    </style>
+
+</head>
+<body class="@ViewData["BodyPictures"]">
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container-fluid">
+                <a class="navbar-brand" asp-controller="Home" asp-action="Index">Delivery</a>
+                <div class="collapse navbar-collapse">
+                    <ul class="navbar-nav me-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Cliente" asp-action="Index">Cliente</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Pedidos" asp-action="Index">Pedidos</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+
+    <div class="container mt-4">
+        @RenderBody()
+    </div>
+
+    <footer class="text-center p-3 mt-auto" style="background-color: rgba(255, 255, 255, 0.5);">
+        <p style="color: #000;">&copy; @DateTime.Now.Year - Sistema Delivery</p>
+    </footer>
+</body>
+</html>

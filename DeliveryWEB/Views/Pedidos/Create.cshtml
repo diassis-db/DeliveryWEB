@@ -1,0 +1,83 @@
+﻿@model Pedido
+
+
+@{
+    var clientes = ViewBag.Clientes as List<Cliente>;
+    ViewData["Title"] = "Emitir Pedidos";
+}
+<h2>Novo Pedido</h2>
+<form asp-action="Create" method="post" id="pedidoForm">
+    <label>Cliente:</label>
+    <select asp-for="ClienteId" class="form-control mb-3">
+        @foreach (var c in clientes)
+        {
+            <option value="@c.Id">@c.Nome</option>
+        }
+    </select>
+
+    <h4>Itens do Pedido</h4>
+    <div id="itensContainer">
+        <div class="item mb-2">
+            <input name="Itens[0].Produto" placeholder="Produto" class="form-control mb-1 produto" />
+            <input name="Itens[0].Quantidade" type="number" placeholder="Quantidade" class="form-control mb-1 quantidade" value="1" min="1" />
+            <input name="Itens[0].ValorUnitario" type="text" placeholder="Valor Unitário" class="form-control mb-1 valor" value="0.00" />
+            <button type="button" class="btn btn-sm btn-danger mb-1 removeItem">Remover</button>
+        </div>
+    </div>
+
+    <button type="button" class="btn btn-secondary mb-2" id="addItem">Adicionar Item</button>
+
+    <h5>Total: R$ <span id="totalPedido">0.00</span></h5>
+
+    <button type="submit" class="btn btn-primary">Salvar Pedido</button>
+</form>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+
+<script>
+    let itemIndex = 1;
+
+    
+
+    // Atualiza total parcial
+    function atualizarTotal() {
+        let total = 0;
+        $('#itensContainer .item').each(function () {
+            const qtd = parseFloat($(this).find('.quantidade').val()) || 0;
+            let valorStr = $(this).find('.valor').val().replace(',', '.');
+            const valor = parseFloat(valorStr) || 0;
+            total += qtd * valor;
+        });
+        $('#totalPedido').text(total.toFixed(2));
+    }
+
+    // Adicionar item
+    $('#addItem').click(function () {
+        const div = $(`
+            <div class="item mb-2">
+                <input name="Itens[${itemIndex}].Produto" placeholder="Produto" class="form-control mb-1 produto" />
+                <input name="Itens[${itemIndex}].Quantidade" type="number" placeholder="Quantidade" class="form-control mb-1 quantidade" value="1" min="1" />
+                <input name="Itens[${itemIndex}].ValorUnitario" type="text" placeholder="Valor Unitário" class="form-control mb-1 valor" value="0.00" />
+                <button type="button" class="btn btn-sm btn-danger mb-1 removeItem">Remover</button>
+            </div>
+        `);
+        $('#itensContainer').append(div);
+        itemIndex++;
+
+        div.find('.removeItem').click(function () {
+            div.remove();
+            atualizarTotal();
+        });
+
+        div.find('.quantidade, .valor').on('input', atualizarTotal);
+
+        
+        atualizarTotal();
+    });
+
+    // Inicial
+    $('.quantidade, .valor').on('input', atualizarTotal);
+   
+    atualizarTotal();
+</script>

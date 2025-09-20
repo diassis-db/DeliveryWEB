@@ -1,0 +1,18 @@
+﻿@model Cliente
+@{
+ViewData["Title"] = "Cadastrar Clientes";
+}
+
+<h2>Cadastrar Cliente</h2>
+<form asp-action="Create" method="post">
+    <input asp-for="Nome" placeholder="Nome" class="form-control mb-2" />
+    <input asp-for="Telefone" id="telefone" placeholder="Telefone" class="form-control mb-2" />
+    <input asp-for="Endereco" placeholder="Endereço" class="form-control mb-2" />
+    <button type="submit" class="btn btn-primary">Salvar</button>
+</form>
+
+<script>
+    $(document).ready(function(){
+        $('#telefone').mask('(00) 00000-0000');
+    });
+</script>
